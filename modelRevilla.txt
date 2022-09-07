@@ -1,0 +1,20 @@
+[LONGITUDINAL]
+input = {Cl, V, c}
+
+EQUATION:
+M = c*0
+
+DEFINITION:
+E1 = {distribution = normal, mean = M, sd = c}
+
+EQUATION:
+; PK model definition
+CcE = pkmodel(V, Cl)
+Cc = CcE+E1
+
+[INDIVIDUAL]
+input = {V_pop, Cl_pop, omega_V, omega_ClR}
+
+DEFINITION:
+V = {distribution=normal, mean=V_pop, sd=omega_V}
+Cl = {distribution=normal, mean=Cl_pop, sd=omega_ClR}

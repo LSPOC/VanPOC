@@ -1,0 +1,30 @@
+[LONGITUDINAL]
+input = {Cl, V1, Q, V2, aG, bG}
+
+EQUATION:
+M = aG*0
+M2 = bG*0
+
+DEFINITION:
+E1 = {distribution = normal, mean = M, sd = aG}
+E2 = {distribution = normal, mean = M2, sd = bG}
+
+EQUATION:
+; Parameter transformations 
+V = V1 
+k = Cl/V1 
+k12 = Q/V1 
+k21 = Q/V2
+
+; PK model definition
+CcE = pkmodel(V, k, k12, k21)
+Cc = CcE*(1+E1)+E2
+
+[INDIVIDUAL]
+input = {V_pop1, V_pop2, Cl_pop, omega_V1G, omega_V2G, omega_ClG, Q}
+
+DEFINITION:
+V1 = {distribution=normal, mean=V_pop1, sd=omega_V1G}
+V2 = {distribution=normal, mean=V_pop2, sd=omega_V2G}
+Cl = {distribution=normal, mean=Cl_pop, sd=omega_ClG}
+
